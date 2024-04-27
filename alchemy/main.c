@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h> // Para usar strings
 #include <time.h>
-#include <math.h>
 
 #ifdef WIN32
 #include <windows.h> // inclui apenas no Windows
@@ -219,7 +218,7 @@ void valida()
             aux1[i].b != aux2[i].b)
         {
             // Se pelo menos um dos pixels for diferente, o algoritmo foi aplicado incorretamente
-            printf("*** INVÁLIDO na posição %d ***: %02X %02X %02X -> %02X %02X %02X\n",
+            printf("*** INVALIDO na posicao %d ***: %02X %02X %02X -> %02X %02X %02X\n",
                    i, aux1[i].r, aux1[i].g, aux1[i].b, aux2[i].r, aux2[i].g, aux2[i].b);
             ok = 0;
             break;
@@ -229,7 +228,7 @@ void valida()
     free(aux1);
     free(aux2);
     if (ok)
-        printf(">>>> TRANSFORMAÇÃO VÁLIDA <<<<<\n");
+        printf(">>>> TRANSFORMACAO VALIDA <<<<<\n");
 }
 
 // Funcao de comparacao para qsort: ordena por R, G, B (desempate nessa ordem)
