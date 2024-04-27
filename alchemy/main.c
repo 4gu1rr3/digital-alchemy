@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h> // Para usar strings
 #include <time.h>
+#include <math.h>
 
 #ifdef WIN32
 #include <windows.h> // inclui apenas no Windows
@@ -34,6 +35,7 @@ typedef struct
 void load(char *name, Img *pic);
 void valida();
 int cmp(const void *elem1, const void *elem2);
+double calculaGay(RGBpixel pixel1, RGBpixel pixel2);
 
 // Funções da interface gráfica e OpenGL
 void init();
@@ -123,24 +125,29 @@ int main(int argc, char *argv[])
     int tam = pic[ORIGEM].width * pic[ORIGEM].height;
     memcpy(pic[SAIDA].pixels, pic[ORIGEM].pixels, sizeof(RGBpixel) * tam);
 
-    //
-    // Neste ponto, voce deve implementar o algoritmo!
-    // (ou chamar funcoes para fazer isso)
-    //
-    // Aplica o algoritmo e gera a saida em pic[SAIDA].pixels...
-    // ...
-    // ...
-    //
-    // Exemplo de manipulação: inverte as cores na imagem de saída
-    /**/
-    for (int i = 0; i < tam; i++)
-    {
-        pic[SAIDA].pixels[i].r = 255 - pic[SAIDA].pixels[i].r;
-        pic[SAIDA].pixels[i].g = 255 - pic[SAIDA].pixels[i].g;
-        pic[SAIDA].pixels[i].b = 255 - pic[SAIDA].pixels[i].b;
-    }
-    /**/
+    //NOSSO CÓDIGO COMEÇA AQUI
+    RGBpixel aux;
+    int i = 0;
+    int pos1 = 0;
+    int pos2 = 0;
 
+    while(i <= 10000){
+        pos1 = (rand()*rand()) % tam;
+        pos2 = (rand()*rand()) % tam;
+
+        double pos1Normal = calculaGay(pic[DESEJ].pixels[pos1], pic[SAIDA].pixels[pos1]);
+        double pos2Normal = calculaGay(pic[DESEJ].pixels[pos2], pic[SAIDA].pixels[pos2]);
+        double pos1pos2 = calculaGay(pic[DESEJ].pixels[pos1], pic[SAIDA].pixels[pos2]);
+        double pos2pos1 = calculaGay(pic[DESEJ].pixels[pos2], pic[SAIDA].pixels[pos1]);
+
+        if(pos2pos1 < pos1Normal && pos1pos2 < pos2Normal){
+            aux = pic[SAIDA].pixels[pos1];
+            pic[SAIDA].pixels[pos1] = pic[SAIDA].pixels[pos2];
+            pic[SAIDA].pixels[pos2] = aux;
+            i = 0;
+        }
+        i++;
+    }
     // NÃO ALTERAR A PARTIR DAQUI!
 
     // Cria textura para a imagem de saída
@@ -152,9 +159,15 @@ int main(int argc, char *argv[])
     glutMainLoop();
 }
 
+double calculaGay(RGBpixel pixel1, RGBpixel pixel2){
+    int dr = pixel1.r - pixel2.r;
+    int dg = pixel1.g - pixel2.g;
+    int db = pixel1.b - pixel2.b;
+    return sqrt(0.299 * dr * dr + 0.587 * dg * dg + 0.114 * db * db);
+}
+
 // Carrega uma imagem para a struct Img
-void load(char *name, Img *pic)
-{
+void load(char *name, Img *pic){
     int chan;
     pic->pixels = (RGBpixel *)SOIL_load_image(name, &pic->width, &pic->height, &chan, SOIL_LOAD_RGB);
     if (!pic->pixels)
