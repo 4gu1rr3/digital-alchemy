@@ -159,11 +159,12 @@ int main(int argc, char *argv[])
     glutMainLoop();
 }
 
+// Método **Manhattan** para calcular a diferença
 double calculaGay(RGBpixel pixel1, RGBpixel pixel2){
-    int dr = pixel1.r - pixel2.r;
-    int dg = pixel1.g - pixel2.g;
-    int db = pixel1.b - pixel2.b;
-    return sqrt(0.299 * dr * dr + 0.587 * dg * dg + 0.114 * db * db);
+    int red = abs(pixel1.r - pixel2.r);
+    int green = abs(pixel1.g - pixel2.g);
+    int blue = abs(pixel1.b - pixel2.b);
+    return red + green + blue;
 }
 
 // Carrega uma imagem para a struct Img
