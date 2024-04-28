@@ -125,29 +125,30 @@ int main(int argc, char *argv[])
     memcpy(pic[SAIDA].pixels, pic[ORIGEM].pixels, sizeof(RGBpixel) * tam);
 
     RGBpixel aux;
-    int pos1 = 0; //Posição 1
-    int pos2 = 0; //Posição 2
+    int pos1 = 0; // Posição 1
+    int pos2 = 0; // Posição 2
     clock_t start, end, time;
     start = clock();
-    while(time <= 3){
+    while (time <= 3) {
         //rand()*rand() é necessário para fazer com que o número seja maior, diminuindo as chances de cair no mesmo lugar
         pos1 = (rand()*rand()) % tam; 
         pos2 = (rand()*rand()) % tam;
 
-        double pos1Normal = manhattan(pic[DESEJ].pixels[pos1], pic[SAIDA].pixels[pos1]); //Calcula a diferença de cor entre o pixel na pos1 na imagem desejada e na saída
-        double pos2Normal = manhattan(pic[DESEJ].pixels[pos2], pic[SAIDA].pixels[pos2]); //Calcula a diferença de cor entre o pixel na pos2 na imagem desejada e na saída
-        double pos2Trocada = manhattan(pic[DESEJ].pixels[pos1], pic[SAIDA].pixels[pos2]); //Calcula a diferença de cor entre o pixel na pos1 na imagem desejada e o pixel na pos2 na saída
-        double pos1Trocada = manhattan(pic[DESEJ].pixels[pos2], pic[SAIDA].pixels[pos1]); //Calcula a diferença de cor entre o pixel na pos2 na imagem desejada e o pixel na pos1 na saída
+        double pos1Normal = manhattan(pic[DESEJ].pixels[pos1], pic[SAIDA].pixels[pos1]); // Calcula a diferença de cor entre o pixel na pos1 na imagem desejada e na saída
+        double pos2Normal = manhattan(pic[DESEJ].pixels[pos2], pic[SAIDA].pixels[pos2]); // Calcula a diferença de cor entre o pixel na pos2 na imagem desejada e na saída
+        double pos2Trocada = manhattan(pic[DESEJ].pixels[pos1], pic[SAIDA].pixels[pos2]); // Calcula a diferença de cor entre o pixel na pos1 na imagem desejada e o pixel na pos2 na saída
+        double pos1Trocada = manhattan(pic[DESEJ].pixels[pos2], pic[SAIDA].pixels[pos1]); // Calcula a diferença de cor entre o pixel na pos2 na imagem desejada e o pixel na pos1 na saída
 
-        if(pos1Trocada < pos1Normal && pos2Trocada < pos2Normal){ //Se trocado fica melhor que normal
+        if (pos1Trocada < pos1Normal && pos2Trocada < pos2Normal) { // Se trocado fica melhor que normal, realiza a troca
             aux = pic[SAIDA].pixels[pos1];
-            pic[SAIDA].pixels[pos1] = pic[SAIDA].pixels[pos2]; //Coloca o pixel em pos2 na pos1
-            pic[SAIDA].pixels[pos2] = aux; //Coloca o pixel em pos1 na pos2
-            start = clock(); //"Recomeça" o relógio
+            pic[SAIDA].pixels[pos1] = pic[SAIDA].pixels[pos2]; 
+            pic[SAIDA].pixels[pos2] = aux; 
+            start = clock(); // "Recomeça" o relógio
         }
         end = clock();
-        time = end-start; //Calcula tempo passado pela diferença entre final e início
+        time = end - start; // Calcula tempo passado pela diferença entre final e início
     }
+
     // NÃO ALTERAR A PARTIR DAQUI!
 
     // Cria textura para a imagem de saída
@@ -159,8 +160,8 @@ int main(int argc, char *argv[])
     glutMainLoop();
 }
 
-// Método **Manhattan** para calcular a diferença de cor entre pixels
-double manhattan(RGBpixel pixel1, RGBpixel pixel2){
+// Método para calcular a diferença de cor entre pixels
+double manhattan(RGBpixel pixel1, RGBpixel pixel2) {
     int red = abs(pixel1.r - pixel2.r);
     int green = abs(pixel1.g - pixel2.g);
     int blue = abs(pixel1.b - pixel2.b);
