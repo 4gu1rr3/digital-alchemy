@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
     int pos2 = 0; // Posição 2
     clock_t start, end, time;
     start = clock();
-    while (time <= 2) {
+    while (time <= 3) {
         //rand()*rand() é necessário para fazer com que o número seja maior, diminuindo as chances de cair no mesmo lugar
         pos1 = (rand()*rand()) % tam; 
         pos2 = (rand()*rand()) % tam;
